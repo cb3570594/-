@@ -1,0 +1,38 @@
+<!--components/calendar/calendar.wxml-->
+
+<view class='calendar-box'>
+  <view class='week-title'>
+    <view class='week-item' wx:for="{{weekList}}" wx:key="{{index}}">{{item}}</view>
+  </view>
+  <view class='calendar-body'>
+    <scroll-view 
+    scroll-y
+    style='height:100%;'>
+      <block wx:for="{{calendarList}}" wx:for-item="mitem" wx:for-index="midx" wx:key="{{midx}}" >
+        <view class='PdV20 TextCenter'>{{mitem.year}}年{{mitem.month}}月</view>
+        <view class='calendar-days'>
+          <block wx:for="{{mitem.list}}" wx:for-item="ditem" wx:for-index="didx" wx:key="{{didx}}">
+            <view
+              class='calendar-day {{currentDays.length === 1 && ditem.timeStr === currentDays[0].timeStr ? "select-one-day": ""}} {{currentDays.length === 2 && ditem.timeStr === currentDays[0].timeStr ? "select-start-day": ""}} {{currentDays.length === 2 && ditem.timeStr === currentDays[1].timeStr ? "select-end-day": ""}} {{currentDays.length === 2 && ditem.timeStr > currentDays[0].timeStr && ditem.timeStr < currentDays[1].timeStr ? "select-living-day": ""}} {{ditem.week == 6 || ditem.week == 0 ? "calendar-weekend":""}} {{ditem.enable ? "":"calendar-disable-day"}}'
+              data-enable="{{ditem.enable}}"
+              data-midx="{{midx}}"
+              data-didx="{{didx}}"
+              bindtap='selectDay'
+            >
+              <view class='calendar-day-line'>{{ditem.status ? ditem.day : ''}}</view>
+              <view class='calendar-day-line' wx:if="{{currentDays[0].timeStr && ditem.timeStr === currentDays[0].timeStr}}">入住</view>
+              <view class='calendar-day-line' wx:elif="{{currentDays[1].timeStr && ditem.timeStr === currentDays[1].timeStr}}">离店</view>
+              <view class='calendar-day-line' wx:else />
+            </view>
+          </block>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>
+<!-- 底部按钮 -->
+<view bindtap='confirm' class='submit-button-box'>
+  <view class='submit-button {{currentDays.length === 2 ? "active":""}}'>
+    {{currentDays.length === 2 ? "提交":"请选择起止时间"}}
+  </view>
+</view>

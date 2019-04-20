@@ -1,0 +1,2 @@
+<!--pages/detail/calendar/calendar.wxml-->
+<calendar calendarMonths="{{calendarMonths}}" defaultDate="{{defaultDate}}" bind:confirm="confirm" />
